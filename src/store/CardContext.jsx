@@ -9,8 +9,22 @@ const CartContext = createContext({
 function cartValuesReducerFn(state, action) {
   if (action === "ADD_ITEM") {
     // ADD ITEM
-    console.log("item added");
+    // 1st check item
+    const indexItemAlreadyAdded = state.items.findIndex((item) => {
+      return item.id === action.item.id;
+    });
+
+    const updatedItems = [...state.items];
+
+    // if item already added to cart, do this below
+    if (indexItemAlreadyAdded > -1) {
+    }
+    // if an item is the first time added to cart, do this below
+    else {
+      updatedItems.push(action.item);
+    }
   }
+
   if (action === "REMOVE_ITEM") {
     // remove item
     console.log("item removed");
@@ -21,7 +35,7 @@ function cartValuesReducerFn(state, action) {
 
 export const CartContextProvider = ({ children }) => {
   const [cartValues, dispatchCartValues] = useReducer(cartValuesReducerFn, {
-    item: [],
+    items: [],
   });
 
   return (
