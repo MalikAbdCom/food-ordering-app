@@ -1,11 +1,18 @@
-import { Fragment, useState } from "react";
+import { Fragment, useContext, useState } from "react";
 import { Disclosure } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 
 import Button from "./UI/Button.jsx";
+import CartContext from "../store/CardContext.jsx";
 
 export default function NavBar() {
-  const [gratherThanZero, setGratherThanZero] = useState(0);
+  const ctxCart = useContext(CartContext);
+
+  const totalCart = ctxCart.items.reduce((prev, cur) => {
+    return prev + cur.quantity;
+  }, 0);
+
+  console.log({ items: ctxCart.items });
 
   return (
     <Disclosure as="nav" className="bg-gray-800 sticky top-0 left-0 w-full">
@@ -46,10 +53,8 @@ export default function NavBar() {
                     Carts
                   </span>{" "}
                   (
-                  <span
-                    className={gratherThanZero ? "text-blue-400 font-bold" : ""}
-                  >
-                    {gratherThanZero}
+                  <span className={totalCart ? "text-blue-400 font-bold" : ""}>
+                    {totalCart}
                   </span>
                   )
                 </Button>

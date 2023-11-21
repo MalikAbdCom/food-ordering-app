@@ -1,8 +1,11 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Button from "./UI/Button.jsx";
+import CartContext from "../store/CardContext.jsx";
 
 export function ItemLists() {
   const [dataMakanan, setDataMakanan] = useState([]);
+
+  const ctxCart = useContext(CartContext);
 
   useEffect(() => {
     const dapetinData = async () => {
@@ -17,6 +20,14 @@ export function ItemLists() {
 
     dapetinData();
   }, []);
+
+  const addItemHandler = (item) => {
+    ctxCart.addItem(item);
+  };
+
+  const removeItemHandler = (id) => {
+    ctxCart.removeItem(id);
+  };
 
   return (
     <div
@@ -48,8 +59,22 @@ export function ItemLists() {
                   "bg-red-700 rounded-md font-semibold text-white mt-4 ml-auto transition-all flex hover:bg-red-800 hover:outline hover:outline-2 hover:outline-offset-4 hover:outline-red-600"
                 }
                 type={"button"}
+                onClick={() => {
+                  addItemHandler(menu);
+                }}
               >
                 Beli sekarang
+              </Button>
+              <Button
+                className={
+                  "bg-red-700 rounded-md font-semibold text-white mt-4 ml-auto transition-all flex hover:bg-red-800 hover:outline hover:outline-2 hover:outline-offset-4 hover:outline-red-600"
+                }
+                type={"button"}
+                onClick={() => {
+                  removeItemHandler(menu.id);
+                }}
+              >
+                Remove this item
               </Button>
             </div>
           </div>
